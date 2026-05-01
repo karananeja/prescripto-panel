@@ -1,5 +1,9 @@
-const App = () => {
-  return <div>App</div>;
-};
+import { Login } from './pages/Login';
 
-export default App;
+export const App = () => {
+  return (
+    <div>
+      <Login />
+    </div>
+  );
+};
