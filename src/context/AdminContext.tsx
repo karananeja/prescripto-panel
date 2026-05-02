@@ -12,9 +12,15 @@ type AdminContextType = {
 const AdminContext = createContext<AdminContextType | null>(null);
 
 export const AdminContextProvider = ({ children }: PropsType) => {
-  const [adminToken, setAdminToken] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('adminToken') || '');
 
-  const value: AdminContextType = { adminToken, setAdminToken };
+  const setAdminToken = (token: string) => {
+    localStorage.setItem('adminToken', token);
+    setToken(token);
+    if (!token) localStorage.removeItem('adminToken');
+  };
+
+  const value: AdminContextType = { adminToken: token, setAdminToken };
 
   return (
     <AdminContext.Provider value={value}>{children}</AdminContext.Provider>

@@ -1,15 +1,34 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { useAdminContext } from '../context/AdminContext';
+import { api } from '../lib/api-client';
 
 import type { ChangeEvent } from 'react';
 
 export const Login = () => {
+  const { setAdminToken } = useAdminContext();
+
   const [isAdmin, setIsAdmin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({ email, password });
+
+    try {
+      if (isAdmin) {
+        // login admin
+        const res = await api.post('/admin/login', { email, password });
+        setAdminToken(res.data.token);
+        toast.success(res.data.message);
+      } else {
+        // login doctor
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.error(error.message);
+    }
   };
 
   return (
