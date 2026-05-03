@@ -87,6 +87,11 @@ export const AddDoctor = () => {
     event.preventDefault();
 
     try {
+      if (!state.image) {
+        toast.error('Image not selected');
+        return;
+      }
+
       const formData = new FormData();
 
       formData.append('name', state.name);
@@ -98,7 +103,7 @@ export const AddDoctor = () => {
       formData.append('degree', state.degree);
       formData.append('about', state.about);
       formData.append('address', JSON.stringify(state.address));
-      if (state.image) formData.append('image', state.image);
+      formData.append('image', state.image);
 
       const res = await api.post('/admin/add-doctor', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -108,7 +113,7 @@ export const AddDoctor = () => {
       dispatch({ type: 'RESET' });
     } catch (error) {
       toast.error(error.message);
-      console.error(error.message);
+      console.error(error);
     }
   };
 
@@ -148,6 +153,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.name}
               onChange={handleChange('name')}
+              required
             />
 
             <input
@@ -156,6 +162,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.email}
               onChange={handleChange('email')}
+              required
             />
 
             <input
@@ -164,12 +171,14 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.password}
               onChange={handleChange('password')}
+              required
             />
 
             <select
               className='px-3 py-2 border rounded'
               value={state.experience}
               onChange={handleChange('experience')}
+              required
             >
               {[...Array(10)].map((_, i) => (
                 <option key={i} value={`${i + 1} Year`}>
@@ -184,6 +193,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.fee}
               onChange={handleChange('fee')}
+              required
             />
           </div>
 
@@ -192,6 +202,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.specialty}
               onChange={handleChange('specialty')}
+              required
             >
               <option value='General physician'>General physician</option>
               <option value='Gynecologist'>Gynecologist</option>
@@ -206,6 +217,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.degree}
               onChange={handleChange('degree')}
+              required
             />
 
             <input
@@ -213,6 +225,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.address.line1}
               onChange={handleAddressChange('line1')}
+              required
             />
 
             <input
@@ -220,6 +233,7 @@ export const AddDoctor = () => {
               className='px-3 py-2 border rounded'
               value={state.address.line2}
               onChange={handleAddressChange('line2')}
+              required
             />
           </div>
         </div>
@@ -231,6 +245,7 @@ export const AddDoctor = () => {
             rows={5}
             value={state.about}
             onChange={handleChange('about')}
+            required
           />
         </div>
 
