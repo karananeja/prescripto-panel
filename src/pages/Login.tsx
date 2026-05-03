@@ -32,7 +32,7 @@ export const Login = () => {
   };
 
   return (
-    <form className='flex items-center min-h-[80vh]' onSubmit={handleSubmit}>
+    <form className='flex items-center min-h-screen' onSubmit={handleSubmit}>
       <div className='flex flex-col items-start gap-3 shadow-lg m-auto p-8 border border-border rounded-xl min-w-80 sm:min-w-96 text-zinc-600 text-sm'>
         <p className='m-auto font-semibold text-2xl'>
           <span className='text-primary'>{isAdmin ? 'Admin' : 'Doctor'}</span>{' '}
