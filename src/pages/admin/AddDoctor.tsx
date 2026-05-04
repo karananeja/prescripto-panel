@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { assets } from '../../assets/assets';
@@ -61,7 +61,22 @@ function reducer(state: State, action: Action): State {
 }
 
 export const AddDoctor = () => {
+  const [preview, setPreview] = useState<string | null>(null);
+
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if (!state.image) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setPreview(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(state.image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [state.image]);
 
   const handleChange =
     (field: keyof State) =>
@@ -126,11 +141,7 @@ export const AddDoctor = () => {
           <label htmlFor='image-upload'>
             <img
               className='bg-gray-100 rounded-full w-16 cursor-pointer'
-              src={
-                state.image
-                  ? URL.createObjectURL(state.image)
-                  : assets.upload_area
-              }
+              src={preview || assets.upload_area}
               alt='upload-area'
             />
           </label>
