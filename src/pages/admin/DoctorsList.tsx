@@ -65,12 +65,20 @@ export const DoctorsList = () => {
                 {doctor.name}
               </p>
               <p className='text-zinc-600 text-sm'>{doctor.specialty}</p>
-              <div
-                className='flex items-center gap-1 mt-2 text-sm'
-                onClick={() => handleChangeAvailability(doctor._id)}
-              >
-                <input type='checkbox' checked={doctor.available} />
-                <p>Available</p>
+              <div className='flex items-center gap-1 mt-2 text-sm'>
+                <input
+                  id={`available-${doctor._id}`}
+                  type='checkbox'
+                  className='cursor-pointer'
+                  checked={doctor.available}
+                  onChange={() => handleChangeAvailability(doctor._id)}
+                />
+                <label
+                  htmlFor={`available-${doctor._id}`}
+                  className='cursor-pointer'
+                >
+                  Available
+                </label>
               </div>
             </div>
           </div>
