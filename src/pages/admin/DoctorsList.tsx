@@ -3,20 +3,6 @@ import { toast } from 'react-toastify';
 
 import { api } from '../../lib/api-client';
 
-interface Doctor {
-  _id: string;
-  name: string;
-  email: string;
-  experience: string;
-  fee: number;
-  specialty: string;
-  degree: string;
-  address: { line1: string; line2: string };
-  about: string;
-  image: string;
-  available: boolean;
-}
-
 export const DoctorsList = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
