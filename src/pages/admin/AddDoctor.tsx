@@ -127,7 +127,7 @@ export const AddDoctor = () => {
       toast.success(res.data.message);
       dispatch({ type: 'RESET' });
     } catch (error) {
-      toast.error(error.message);
+      toast.error((error as Error).message);
       console.error(error);
     }
   };
