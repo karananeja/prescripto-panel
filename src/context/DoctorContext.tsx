@@ -1,16 +1,27 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 import type { ReactNode } from 'react';
 
 type PropsType = { children: ReactNode };
 
-type DoctorContextType = { currencySymbol: string };
+type DoctorContextType = {
+  doctorToken: string;
+  setDoctorToken: (token: string) => void;
+};
 
 const DoctorContext = createContext<DoctorContextType | null>(null);
 
 export const DoctorContextProvider = ({ children }: PropsType) => {
-  const currencySymbol = '₹';
-  const value: DoctorContextType = { currencySymbol };
+  const [token, setToken] = useState(localStorage.getItem('doctorToken') || '');
+
+  const setDoctorToken = (token: string) => {
+    localStorage.setItem('doctorToken', token);
+    setToken(token);
+    if (!token) localStorage.removeItem('doctorToken');
+  };
+
+  const value: DoctorContextType = { doctorToken: token, setDoctorToken };
+
   return (
     <DoctorContext.Provider value={value}>{children}</DoctorContext.Provider>
   );

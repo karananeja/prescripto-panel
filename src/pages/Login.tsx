@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAdminContext } from '../context/AdminContext';
+import { useDoctorContext } from '../context/DoctorContext';
 import { api } from '../lib/api-client';
 
 import type { ChangeEvent } from 'react';
 
 export const Login = () => {
   const { setAdminToken } = useAdminContext();
+  const { setDoctorToken } = useDoctorContext();
 
   const [isAdmin, setIsAdmin] = useState(true);
   const [email, setEmail] = useState('');
@@ -24,6 +26,9 @@ export const Login = () => {
         toast.success(res.data.message);
       } else {
         // login doctor
+        const res = await api.post('/doctor/login', { email, password });
+        setDoctorToken(res.data.token);
+        toast.success(res.data.message);
       }
     } catch (error) {
       toast.error((error as Error).message);
