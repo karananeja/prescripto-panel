@@ -2,13 +2,15 @@ import { NavLink } from 'react-router-dom';
 
 import { assets } from '../assets/assets';
 import { useAdminContext } from '../context/AdminContext';
+import { useDoctorContext } from '../context/DoctorContext';
 
 export const Sidebar = () => {
   const { adminToken } = useAdminContext();
+  const { doctorToken } = useDoctorContext();
 
   return (
     <div className='bg-white border-border border-r h-[calc(100vh-63px)]'>
-      {adminToken ? (
+      {adminToken && (
         <ul className='mt-5 text-[#515151]'>
           <NavLink
             to='/admin-dashboard'
@@ -58,8 +60,46 @@ export const Sidebar = () => {
             <p>Doctors List</p>
           </NavLink>
         </ul>
-      ) : (
-        'Doctor'
+      )}
+
+      {doctorToken && (
+        <ul className='mt-5 text-[#515151]'>
+          <NavLink
+            to='/doctor-dashboard'
+            className={({ isActive }) =>
+              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
+                isActive && 'border-primary bg-[#f2f3ff] border-r-4'
+              }`
+            }
+          >
+            <img src={assets.home_icon} alt='home-icon' />
+            <p>Dashboard</p>
+          </NavLink>
+
+          <NavLink
+            to='/doctor-appointments'
+            className={({ isActive }) =>
+              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
+                isActive && 'border-primary bg-[#f2f3ff] border-r-4'
+              }`
+            }
+          >
+            <img src={assets.appointment_icon} alt='appointment-icon' />
+            <p>Appointments</p>
+          </NavLink>
+
+          <NavLink
+            to='/doctor-profile'
+            className={({ isActive }) =>
+              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
+                isActive && 'border-primary bg-[#f2f3ff] border-r-4'
+              }`
+            }
+          >
+            <img src={assets.people_icon} alt='people-icon' />
+            <p>Profile</p>
+          </NavLink>
+        </ul>
       )}
     </div>
   );

@@ -2,14 +2,17 @@ import { useNavigate } from 'react-router-dom';
 
 import { assets } from '../assets/assets';
 import { useAdminContext } from '../context/AdminContext';
+import { useDoctorContext } from '../context/DoctorContext';
 
 export const Navbar = () => {
   const { adminToken, setAdminToken } = useAdminContext();
+  const { doctorToken, setDoctorToken } = useDoctorContext();
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setAdminToken('');
+    setDoctorToken('');
     navigate('/');
   };
 
@@ -22,7 +25,8 @@ export const Navbar = () => {
           alt='admin-logo'
         />
         <p className='px-2.5 py-0.5 border border-gray-500 rounded-full text-gray-600'>
-          {adminToken ? 'Admin' : 'Doctor'}
+          {adminToken && 'Admin'}
+          {doctorToken && 'Doctor'}
         </p>
       </div>
       <button
