@@ -17,3 +17,8 @@ export const formatDate = (slotDate: string) => {
   const [date, month, year] = slotDate.split('_');
   return `${date}, ${MONTHS[+month - 1]}, ${year}`;
 };
+
+export const getAge = (dob: string) => {
+  if (!dob) return '-';
+  return `${new Date().getFullYear() - new Date(dob).getFullYear()} years`;
+};

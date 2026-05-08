@@ -7,7 +7,13 @@ export const api = Axios.create({ baseURL: env.API_URL });
 api.interceptors.request.use((config) => {
   if (config.headers) {
     config.headers.Accept = 'application/json';
-    const token = localStorage.getItem('adminToken');
+
+    const url = (config.url || '').split('/');
+    let token = null;
+
+    if (url[1] === 'admin') token = localStorage.getItem('adminToken');
+    if (url[1] === 'doctor') token = localStorage.getItem('doctorToken');
+
     if (token) config.headers.Authorization = `Bearer ${token}`;
   }
 
