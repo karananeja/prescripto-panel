@@ -6,7 +6,7 @@ import { api } from '../../lib/api-client';
 import { formatDate } from '../../lib/utils';
 
 export const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState<DashboardData>({
+  const [dashboardData, setDashboardData] = useState<AdminDashboardData>({
     appointments: 0,
     doctors: 0,
     patients: 0,

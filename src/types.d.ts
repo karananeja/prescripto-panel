@@ -40,9 +40,16 @@ interface Appointment {
   isCompleted: boolean;
 }
 
-interface DashboardData {
+interface AdminDashboardData {
   appointments: number;
   doctors: number;
+  patients: number;
+  latestAppointments: Appointment[];
+}
+
+interface DoctorDashboardData {
+  earnings: number;
+  appointments: number;
   patients: number;
   latestAppointments: Appointment[];
 }
