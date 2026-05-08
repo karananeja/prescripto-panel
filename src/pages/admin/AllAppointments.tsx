@@ -93,7 +93,7 @@ export const AllAppointments = () => {
               </p>
 
               {appointment.cancelled ? (
-                <p className='flex items-center size-10 font-medium text-red-400 text-xs'>
+                <p className='flex items-center h-10 font-medium text-red-400 text-xs'>
                   Cancelled
                 </p>
               ) : (

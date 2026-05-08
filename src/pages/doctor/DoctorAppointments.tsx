@@ -1,3 +1,141 @@
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { assets } from '../../assets/assets';
+import { useAppContext } from '../../context/AppContext';
+import { api } from '../../lib/api-client';
+import { formatDate, getAge } from '../../lib/utils';
+
 export const DoctorAppointments = () => {
-  return <div>DoctorAppointments</div>;
+  const { currencySymbol } = useAppContext();
+
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const res = await api.get('/doctor/get-appointments');
+        setAppointments(res.data.appointments);
+      } catch (error) {
+        toast.error((error as Error).message);
+        console.error(error);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  const handleCancelAppointment = async (appointmentId: string) => {
+    try {
+      const payload = { appointmentId };
+      const res = await api.post('/doctor/cancel-appointment', payload);
+      toast.success(res.data.message);
+      setAppointments((prev) =>
+        prev.map((appointment) =>
+          appointment._id === appointmentId
+            ? { ...appointment, cancelled: true }
+            : appointment
+        )
+      );
+    } catch (error) {
+      toast.error((error as Error).message);
+      console.error(error);
+    }
+  };
+
+  const handleCompleteAppointment = async (appointmentId: string) => {
+    try {
+      const payload = { appointmentId };
+      const res = await api.post('/doctor/complete-appointment', payload);
+      toast.success(res.data.message);
+      setAppointments((prev) =>
+        prev.map((appointment) =>
+          appointment._id === appointmentId
+            ? { ...appointment, isCompleted: true }
+            : appointment
+        )
+      );
+    } catch (error) {
+      toast.error((error as Error).message);
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className='m-5 w-full max-w-6xl'>
+      <p className='mb-3 font-medium text-lg'>All Appointments</p>
+
+      <div className='bg-white border border-border rounded min-h-[60vh] max-h-[80vh] overflow-y-auto text-sm'>
+        <div className='hidden gap-1 sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] grid-flow-col px-6 py-3 border-border border-b'>
+          <p>#</p>
+          <p>Patient</p>
+          <p>Payment</p>
+          <p>Age</p>
+          <p>Date & Time</p>
+          <p>Fee</p>
+          <p>Actions</p>
+        </div>
+
+        {appointments.length > 0 ? (
+          appointments.map((appointment, index) => (
+            <div
+              key={appointment._id}
+              className='flex flex-wrap justify-between items-center gap-1 max-sm:gap-2 sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] grid-flow-col hover:bg-gray-50 px-6 py-3 border-border border-b transition-all duration-300'
+            >
+              <p className='max-sm:hidden'>{index + 1}</p>
+              <div className='flex items-center gap-2'>
+                <img
+                  className='bg-gray-200 rounded-full w-8'
+                  src={appointment.userData.image}
+                  alt='user-image'
+                />
+                <p>{appointment.userData.name}</p>
+              </div>
+              <p className='px-2 border border-primary rounded-full w-fit text-xs'>
+                {appointment.payment ? 'Paid' : 'Pending'}
+              </p>
+              <p className='max-sm:hidden'>
+                {getAge(appointment.userData.dob)}
+              </p>
+              <p>
+                {formatDate(appointment.slotDate)} | {appointment.slotTime}
+              </p>
+              <p>
+                {currencySymbol}
+                {appointment.amount}
+              </p>
+              {appointment.cancelled ? (
+                <p className='flex items-center h-10 font-medium text-red-400 text-xs'>
+                  Cancelled
+                </p>
+              ) : appointment.isCompleted ? (
+                <p className='flex items-center h-10 font-medium text-green-400 text-xs'>
+                  Completed
+                </p>
+              ) : (
+                <div className='flex'>
+                  <img
+                    className='size-10 cursor-pointer'
+                    src={assets.cancel_icon}
+                    alt='cancel-icon'
+                    onClick={() => handleCancelAppointment(appointment._id)}
+                  />
+                  <img
+                    className='size-10 cursor-pointer'
+                    src={assets.tick_icon}
+                    alt='tick-icon'
+                    onClick={() => handleCompleteAppointment(appointment._id)}
+                  />
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className='flex justify-center items-center h-[54vh] text-zinc-400 text-sm text-center'>
+            No appointments found
+          </p>
+        )}
+      </div>
+    </div>
+  );
 };
