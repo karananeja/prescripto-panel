@@ -8,8 +8,13 @@ export const DoctorsList = () => {
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      const res = await api.get('/admin/get-all-doctors');
-      setDoctors(res.data.doctors);
+      try {
+        const res = await api.get('/admin/get-all-doctors');
+        setDoctors(res.data.doctors);
+      } catch (error) {
+        toast.error((error as Error).message);
+        console.error(error);
+      }
     };
 
     fetchDoctors();

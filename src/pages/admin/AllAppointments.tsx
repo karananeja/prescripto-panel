@@ -4,21 +4,7 @@ import { toast } from 'react-toastify';
 import { assets } from '../../assets/assets';
 import { useAppContext } from '../../context/AppContext';
 import { api } from '../../lib/api-client';
-
-const MONTHS = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+import { formatDate } from '../../lib/utils';
 
 export const AllAppointments = () => {
   const { currencySymbol } = useAppContext();
@@ -27,8 +13,13 @@ export const AllAppointments = () => {
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      const res = await api.get('/admin/get-appointments');
-      setAppointments(res.data.appointments);
+      try {
+        const res = await api.get('/admin/get-appointments');
+        setAppointments(res.data.appointments);
+      } catch (error) {
+        toast.error((error as Error).message);
+        console.error(error);
+      }
     };
 
     fetchAppointments();
@@ -68,7 +59,6 @@ export const AllAppointments = () => {
         </div>
 
         {appointments.map((appointment, index) => {
-          const [date, month, year] = appointment.slotDate.split('_');
           const currentYear = new Date().getFullYear();
           const age = appointment.userData.dob
             ? `${
@@ -79,7 +69,7 @@ export const AllAppointments = () => {
           return (
             <div
               key={appointment._id}
-              className='flex flex-wrap justify-between items-center max-sm:gap-2 sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col hover:bg-gray-50 px-6 py-3 border-border border-b'
+              className='flex flex-wrap justify-between items-center max-sm:gap-2 sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col hover:bg-gray-50 px-6 py-3 border-border border-b transition-all duration-300'
             >
               <p className='max-sm:hidden'>{index + 1}</p>
               <div className='flex items-center gap-2'>
@@ -92,7 +82,7 @@ export const AllAppointments = () => {
               </div>
               <p className='max-sm:hidden'>{age}</p>
               <p>
-                {date}, {MONTHS[+month - 1]}, {year} | {appointment.slotTime}
+                {formatDate(appointment.slotDate)} | {appointment.slotTime}
               </p>
               <div className='flex items-center gap-2'>
                 <img

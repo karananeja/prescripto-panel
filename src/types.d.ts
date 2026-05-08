@@ -39,3 +39,10 @@ interface Appointment {
   payment: boolean;
   isCompleted: boolean;
 }
+
+interface DashboardData {
+  appointments: number;
+  doctors: number;
+  patients: number;
+  latestAppointments: Appointment[];
+}
