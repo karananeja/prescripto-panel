@@ -21,7 +21,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.home_icon} alt='home-icon' />
-            <p>Dashboard</p>
+            <p className='max-sm:hidden'>Dashboard</p>
           </NavLink>
 
           <NavLink
@@ -33,7 +33,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.appointment_icon} alt='appointment-icon' />
-            <p>All Appointments</p>
+            <p className='max-sm:hidden'>All Appointments</p>
           </NavLink>
 
           <NavLink
@@ -45,7 +45,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.add_icon} alt='add-icon' />
-            <p>Add Doctor</p>
+            <p className='max-sm:hidden'>Add Doctor</p>
           </NavLink>
 
           <NavLink
@@ -57,7 +57,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.people_icon} alt='people-icon' />
-            <p>Doctors List</p>
+            <p className='max-sm:hidden'>Doctors List</p>
           </NavLink>
         </ul>
       )}
@@ -73,7 +73,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.home_icon} alt='home-icon' />
-            <p>Dashboard</p>
+            <p className='max-sm:hidden'>Dashboard</p>
           </NavLink>
 
           <NavLink
@@ -85,7 +85,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.appointment_icon} alt='appointment-icon' />
-            <p>Appointments</p>
+            <p className='max-sm:hidden'>Appointments</p>
           </NavLink>
 
           <NavLink
@@ -97,7 +97,7 @@ export const Sidebar = () => {
             }
           >
             <img src={assets.people_icon} alt='people-icon' />
-            <p>Profile</p>
+            <p className='max-sm:hidden'>Profile</p>
           </NavLink>
         </ul>
       )}
