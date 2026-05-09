@@ -53,3 +53,16 @@ interface DoctorDashboardData {
   patients: number;
   latestAppointments: Appointment[];
 }
+
+interface DoctorProfile {
+  name: string;
+  email: string;
+  image: string;
+  specialty: string;
+  degree: string;
+  experience: string;
+  about: string;
+  available: boolean;
+  fee: number;
+  address: { line1: string; line2: string };
+}
