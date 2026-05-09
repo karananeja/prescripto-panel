@@ -1,13 +1,21 @@
 # Prescripto Panel
 
-Web dashboard for **Prescripto**: separate flows for **admin** and **doctor** users. Admins manage doctors and appointments; doctors view their dashboard, profile, and appointments. Built with React, TypeScript, and Vite.
+Web dashboard for **Prescripto**: separate flows for **admin** and **doctor** users. Admins manage doctors and appointments; doctors view their dashboard, profile, and appointments.
+
+## Tech stack
+
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite 8](https://vite.dev/) for dev server and production builds
+- [React Router 7](https://reactrouter.com/) for routing
+- [Tailwind CSS 4](https://tailwindcss.com/) for styling
+- [Axios](https://axios-http.com/) for HTTP, [Zod](https://zod.dev/) for environment validation, [react-toastify](https://fkhadra.github.io/react-toastify/) for notifications
 
 ## Features
 
 - **Admin**: dashboard, add doctor, doctors list, all appointments  
 - **Doctor**: dashboard, profile, appointments  
 - **Auth**: JWT stored in `localStorage` (`adminToken` / `doctorToken`); API requests attach `Authorization: Bearer` for `/admin/*` and `/doctor/*` routes  
-- **UI**: Tailwind CSS v4, React Router, toast notifications (react-toastify)
+- **UI**: layout and components styled with Tailwind; global toasts via react-toastify
 
 ## Prerequisites
 
