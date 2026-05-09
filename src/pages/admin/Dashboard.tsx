@@ -116,8 +116,12 @@ export const Dashboard = () => {
                 </div>
 
                 {appointment.cancelled ? (
-                  <p className='flex items-center size-10 font-medium text-red-400 text-xs'>
+                  <p className='flex items-center h-10 font-medium text-red-400 text-xs'>
                     Cancelled
+                  </p>
+                ) : appointment.isCompleted ? (
+                  <p className='flex items-center h-10 font-medium text-green-400 text-xs'>
+                    Completed
                   </p>
                 ) : (
                   <img

@@ -96,6 +96,10 @@ export const AllAppointments = () => {
                 <p className='flex items-center h-10 font-medium text-red-400 text-xs'>
                   Cancelled
                 </p>
+              ) : appointment.isCompleted ? (
+                <p className='flex items-center h-10 font-medium text-green-400 text-xs'>
+                  Completed
+                </p>
               ) : (
                 <img
                   className='size-10 cursor-pointer'
