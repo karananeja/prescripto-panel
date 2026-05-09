@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
+# Prescripto Panel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web dashboard for **Prescripto**: separate flows for **admin** and **doctor** users. Admins manage doctors and appointments; doctors view their dashboard, profile, and appointments. Built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Admin**: dashboard, add doctor, doctors list, all appointments  
+- **Doctor**: dashboard, profile, appointments  
+- **Auth**: JWT stored in `localStorage` (`adminToken` / `doctorToken`); API requests attach `Authorization: Bearer` for `/admin/*` and `/doctor/*` routes  
+- **UI**: Tailwind CSS v4, React Router, toast notifications (react-toastify)
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [Node.js](https://nodejs.org/) (current LTS recommended)
+- npm (bundled with Node)
 
-## Expanding the ESLint configuration
+## Environment
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Create a `.env` file in the project root. The app reads variables prefixed with `VITE_APP_` and maps them for use in code (for example `VITE_APP_API_URL` becomes `API_URL`).
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Variable            | Description                          |
+| ------------------- | ------------------------------------ |
+| `VITE_APP_API_URL`  | Base URL of the Prescripto backend API |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Example:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```env
+VITE_APP_API_URL=http://localhost:4000
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+If this variable is missing or invalid, the app throws at startup with a validation error from the env schema.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+| Command       | Description                    |
+| ------------- | ------------------------------ |
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Typecheck and production build |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint on the project      |
+
+## Project layout
+
+- `src/pages/` — route screens (login, admin, doctor)  
+- `src/context/` — admin/doctor/app state and tokens  
+- `src/lib/api-client.ts` — Axios instance and auth interceptors  
+- `src/config/env.ts` — typed environment loading  
+
+## License
+
+This project is licensed under the MIT License — see [LICENSE](LICENSE).
