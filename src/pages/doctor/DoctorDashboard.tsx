@@ -117,51 +117,57 @@ export const DoctorDashboard = () => {
         </div>
 
         <div className='pt-4 border border-border border-t-0 rounded-b'>
-          {dashboardData.latestAppointments.map((appointment) => (
-            <div
-              className='flex items-center gap-3 hover:bg-gray-50 px-6 py-3 transition-all duration-300'
-              key={appointment._id}
-            >
-              <img
-                className='bg-gray-200 rounded-full w-10'
-                src={appointment.userData.image}
-                alt='user-image'
-              />
-              <div className='flex-1 text-sm'>
-                <p className='font-medium text-gray-800'>
-                  {appointment.userData.name}
-                </p>
-                <p className='text-gray-600'>
-                  Booking on {formatDate(appointment.slotDate)}
-                </p>
-              </div>
-
-              {appointment.cancelled ? (
-                <p className='flex items-center h-10 font-medium text-red-400 text-xs'>
-                  Cancelled
-                </p>
-              ) : appointment.isCompleted ? (
-                <p className='flex items-center h-10 font-medium text-green-400 text-xs'>
-                  Completed
-                </p>
-              ) : (
-                <div className='flex'>
-                  <img
-                    className='size-10 cursor-pointer'
-                    src={assets.cancel_icon}
-                    alt='cancel-icon'
-                    onClick={() => handleCancelAppointment(appointment._id)}
-                  />
-                  <img
-                    className='size-10 cursor-pointer'
-                    src={assets.tick_icon}
-                    alt='tick-icon'
-                    onClick={() => handleCompleteAppointment(appointment._id)}
-                  />
+          {dashboardData.latestAppointments.length > 0 ? (
+            dashboardData.latestAppointments.map((appointment) => (
+              <div
+                className='flex items-center gap-3 hover:bg-gray-50 px-6 py-3 transition-all duration-300'
+                key={appointment._id}
+              >
+                <img
+                  className='bg-gray-200 rounded-full w-10'
+                  src={appointment.userData.image}
+                  alt='user-image'
+                />
+                <div className='flex-1 text-sm'>
+                  <p className='font-medium text-gray-800'>
+                    {appointment.userData.name}
+                  </p>
+                  <p className='text-gray-600'>
+                    Booking on {formatDate(appointment.slotDate)}
+                  </p>
                 </div>
-              )}
-            </div>
-          ))}
+
+                {appointment.cancelled ? (
+                  <p className='flex items-center h-10 font-medium text-red-400 text-xs'>
+                    Cancelled
+                  </p>
+                ) : appointment.isCompleted ? (
+                  <p className='flex items-center h-10 font-medium text-green-400 text-xs'>
+                    Completed
+                  </p>
+                ) : (
+                  <div className='flex'>
+                    <img
+                      className='size-10 cursor-pointer'
+                      src={assets.cancel_icon}
+                      alt='cancel-icon'
+                      onClick={() => handleCancelAppointment(appointment._id)}
+                    />
+                    <img
+                      className='size-10 cursor-pointer'
+                      src={assets.tick_icon}
+                      alt='tick-icon'
+                      onClick={() => handleCompleteAppointment(appointment._id)}
+                    />
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className='flex justify-center items-center h-[54vh] text-zinc-400 text-sm text-center'>
+              No appointments found
+            </p>
+          )}
         </div>
       </div>
     </div>
