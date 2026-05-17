@@ -6,6 +6,60 @@ import { useAppContext } from '../../context/AppContext';
 import { api } from '../../lib/api-client';
 import { formatDate } from '../../lib/utils';
 
+const DashboardSkeleton = () => {
+  return (
+    <div className='m-5 animate-pulse'>
+      {/* Stats Cards Skeleton */}
+      <div className='flex flex-wrap gap-3'>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div
+            key={index}
+            className='flex items-center gap-2 bg-white p-4 border-2 border-border rounded min-w-52'
+          >
+            <div className='bg-gray-200 rounded size-14' />
+
+            <div className='flex flex-col gap-2'>
+              <div className='bg-gray-200 rounded w-24 h-5' />
+              <div className='bg-gray-100 rounded w-16 h-3' />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Latest Appointments Skeleton */}
+      <div className='bg-white mt-10'>
+        {/* Header */}
+        <div className='flex items-center gap-2.5 p-4 border border-border rounded-t'>
+          <div className='bg-gray-200 rounded size-6' />
+          <div className='bg-gray-200 rounded w-40 h-4' />
+        </div>
+
+        {/* Appointment List */}
+        <div className='pt-4 border border-border border-t-0 rounded-b'>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className='flex items-center gap-3 px-6 py-3'>
+              {/* Avatar */}
+              <div className='bg-gray-200 rounded-full size-10' />
+
+              {/* Text */}
+              <div className='flex flex-col flex-1 gap-2'>
+                <div className='bg-gray-200 rounded w-40 h-4' />
+                <div className='bg-gray-100 rounded w-32 h-3' />
+              </div>
+
+              {/* Action Buttons */}
+              <div className='flex gap-2'>
+                <div className='bg-gray-200 rounded size-10' />
+                <div className='bg-gray-200 rounded size-10' />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const DoctorDashboard = () => {
   const { currencySymbol } = useAppContext();
 
@@ -15,15 +69,19 @@ export const DoctorDashboard = () => {
     patients: 0,
     latestAppointments: [],
   });
+  const [isDashboardLoading, setIsDashboardLoading] = useState(false);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
+        setIsDashboardLoading(true);
         const res = await api.get('/doctor/get-dashboard-data');
         setDashboardData(res.data.dashboardData);
       } catch (error) {
         toast.error((error as Error).message);
         console.error(error);
+      } finally {
+        setIsDashboardLoading(false);
       }
     };
 
@@ -68,7 +126,9 @@ export const DoctorDashboard = () => {
     }
   };
 
-  return (
+  return isDashboardLoading ? (
+    <DashboardSkeleton />
+  ) : (
     <div className='m-5'>
       <div className='flex flex-wrap gap-3'>
         <div className='flex items-center gap-2 bg-white p-4 border-2 border-border rounded min-w-52 hover:scale-105 transition-all duration-500 cursor-pointer'>

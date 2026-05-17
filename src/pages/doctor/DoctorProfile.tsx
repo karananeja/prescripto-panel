@@ -32,10 +32,7 @@ const initialState: State = {
     about: '',
     available: false,
     fee: 0,
-    address: {
-      line1: '',
-      line2: '',
-    },
+    address: { line1: '', line2: '' },
   },
   isEdit: false,
 };
@@ -87,6 +84,71 @@ const inputClass =
 const textClass =
   'h-9 flex items-center px-3 text-sm text-gray-700 border border-transparent';
 
+const ProfileSkeleton = () => {
+  return (
+    <form className='flex flex-col gap-4 m-5 animate-pulse'>
+      {/* Doctor Image */}
+      <div className='bg-gray-200 rounded-lg w-full sm:max-w-64 h-64' />
+
+      {/* Content */}
+      <div className='flex-1 bg-white px-8 py-7 border border-stone-100 rounded-lg'>
+        {/* Name */}
+        <div className='bg-gray-200 rounded w-64 h-8' />
+
+        {/* Degree + Specialty + Experience */}
+        <div className='flex items-center gap-2 mt-3'>
+          <div className='bg-gray-200 rounded w-56 h-4' />
+          <div className='bg-gray-200 rounded-full w-20 h-6' />
+        </div>
+
+        {/* About */}
+        <div className='mt-3'>
+          <div className='bg-gray-200 mb-3 rounded w-20 h-4' />
+
+          <div className='space-y-2 min-w-[700px]'>
+            <div className='bg-gray-200 rounded w-full h-3' />
+            <div className='bg-gray-200 rounded w-full h-3' />
+            <div className='bg-gray-200 rounded w-5/6 h-3' />
+            <div className='bg-gray-200 rounded w-4/6 h-3' />
+          </div>
+        </div>
+
+        {/* Fee */}
+        <div className='flex items-center gap-2 mt-4'>
+          <div className='bg-gray-200 rounded w-32 h-4' />
+
+          <div className='flex items-center gap-2'>
+            <div className='bg-gray-200 rounded w-4 h-4' />
+            <div className='bg-gray-200 rounded w-20 h-5' />
+          </div>
+        </div>
+
+        {/* Address */}
+        <div className='flex gap-2 py-3'>
+          <div className='bg-gray-200 mt-1 rounded w-20 h-4' />
+
+          <div className='flex flex-col gap-3 w-full max-w-md'>
+            <div className='bg-gray-200 rounded w-full h-10' />
+            <div className='bg-gray-200 rounded w-full h-10' />
+          </div>
+        </div>
+
+        {/* Checkbox */}
+        <div className='flex items-center gap-2 pt-2'>
+          <div className='bg-gray-200 rounded w-4 h-4' />
+          <div className='bg-gray-200 rounded w-24 h-4' />
+        </div>
+
+        {/* Buttons */}
+        <div className='flex gap-3 mt-6'>
+          <div className='bg-gray-200 rounded-full w-28 h-10' />
+          <div className='bg-gray-200 rounded-full w-36 h-10' />
+        </div>
+      </div>
+    </form>
+  );
+};
+
 export const DoctorProfile = () => {
   const { currencySymbol } = useAppContext();
 
@@ -95,18 +157,22 @@ export const DoctorProfile = () => {
   const [originalDoctor, setOriginalDoctor] = useState<DoctorProfile | null>(
     null
   );
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   const { doctorDetails, isEdit } = state;
 
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
+        setIsProfileLoading(true);
         const res = await api.get('/doctor/get-doctor-info');
         dispatch({ type: 'SET_DOCTOR_DETAILS', payload: res.data.doctor });
         setOriginalDoctor(res.data.doctor);
       } catch (error) {
         toast.error((error as Error).message);
         console.error(error);
+      } finally {
+        setIsProfileLoading(false);
       }
     };
 
@@ -139,7 +205,9 @@ export const DoctorProfile = () => {
     dispatch({ type: 'TOGGLE_EDIT', payload: false });
   };
 
-  return (
+  return isProfileLoading ? (
+    <ProfileSkeleton />
+  ) : (
     <form onSubmit={handleSave} className='flex flex-col gap-4 m-5'>
       {doctorDetails.image && (
         <img
