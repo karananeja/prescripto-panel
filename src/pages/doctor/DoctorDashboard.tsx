@@ -6,7 +6,7 @@ import { useAppContext } from '../../context/AppContext';
 import { api } from '../../lib/api-client';
 import { formatDate } from '../../lib/utils';
 
-const DashboardSkeleton = () => {
+const DoctorDashboardSkeleton = () => {
   return (
     <div className='m-5 animate-pulse'>
       {/* Stats Cards Skeleton */}
@@ -127,7 +127,7 @@ export const DoctorDashboard = () => {
   };
 
   return isDashboardLoading ? (
-    <DashboardSkeleton />
+    <DoctorDashboardSkeleton />
   ) : (
     <div className='m-5'>
       <div className='flex flex-wrap gap-3'>

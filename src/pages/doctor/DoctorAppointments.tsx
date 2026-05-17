@@ -6,7 +6,7 @@ import { useAppContext } from '../../context/AppContext';
 import { api } from '../../lib/api-client';
 import { formatDate, getAge } from '../../lib/utils';
 
-const AppointmentSkeleton = () => {
+const DoctorAppointmentSkeleton = () => {
   return (
     <div className='m-5 w-full max-w-6xl animate-pulse'>
       {/* Title Skeleton */}
@@ -119,7 +119,7 @@ export const DoctorAppointments = () => {
   };
 
   return isAppointmentsLoading ? (
-    <AppointmentSkeleton />
+    <DoctorAppointmentSkeleton />
   ) : (
     <div className='m-5 w-full max-w-6xl'>
       <p className='mb-3 font-medium text-lg'>All Appointments</p>
